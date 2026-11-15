@@ -43,12 +43,15 @@ final class KeyPlayer: ObservableObject {
                 KeyPlayer.postKey(keyCode, down: false, flags: 0, source: source)
             }
 
-            await MainActor.run {
-                self?.isPlaying = false
-                self?.playingMacroID = nil
-                self?.task = nil
-            }
+            await self?.finishPlayback()
         }
+    }
+
+    @MainActor
+    private func finishPlayback() {
+        isPlaying = false
+        playingMacroID = nil
+        task = nil
     }
 
     func stop() {
